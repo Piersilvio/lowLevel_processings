@@ -1,8 +1,8 @@
 
-#include <iostream>
-
-using namespace std;
+#include "GUI.h"
 
 int main() {
-    cout << "Hello World!" << endl;
+    GUI gui;
+    gui.run();
+    return 0;
 }
