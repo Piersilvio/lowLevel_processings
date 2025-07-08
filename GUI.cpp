@@ -65,7 +65,7 @@ void GUI::run() {
             case 3: {
                 std::string targetPath;
                 std::cout << "Enter path to target grayscale image: ";
-                std::cin.ignore(); // clean up newline
+                std::cin.ignore();
                 std::getline(std::cin, targetPath);
                 cv::Mat target = cv::imread(targetPath, cv::IMREAD_GRAYSCALE);
                 if (target.empty()) {
@@ -135,6 +135,7 @@ void GUI::run() {
                 break;
             }
 
+            // FIXME: Fix the invoke methdod
             case 8: {
                 const std::string win = "Sharpening with laplacian";
                 int mode = 0;
