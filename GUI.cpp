@@ -129,13 +129,12 @@ void GUI::run() {
                     cv::Mat roberts = Filters::roberts(img);
                     cv::imshow("Roberts Filter", roberts);
                 }, &gray);
-
                 cv::setTrackbarPos("Apply", win, 1);
                 cv::waitKey(0);
                 break;
             }
 
-            // FIXME: Fix the invoke methdod
+            // FIXME: fix dell'invocazione del meotodo alla chiamata per la funzione dello sharp
             case 8: {
                 const std::string win = "Sharpening with laplacian";
                 int mode = 0;
