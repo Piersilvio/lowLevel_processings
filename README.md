@@ -1,71 +1,68 @@
 # Low-Level Image Processing Toolkit
 
-Questo progetto fornisce una semplice interfaccia in C++ e OpenCV per applicare **operazioni spaziali sulle immagini a basso livello**.  
-È pensato per fini didattici e dimostrativi, offrendo una GUI testuale e alcune interazioni visive tramite slider (`cv::createTrackbar`).
+This project provides a simple C++ and OpenCV interface to perform **low-level spatial operations on images**.
 
+It is intended for educational and demonstration purposes, offering a text GUI and some visual interaction via sliders (`cv::createTrackbar`).
 
-## 🧠 Descrizione delle Funzionalità
+## 🧠 Feature Description
 
 ### 1. 📊 Histogram
-- Calcola e visualizza l'istogramma dei livelli di intensità.
-- Implementato con `cv::calcHist` e disegno personalizzato in OpenCV.
+- Calculate and display the histogram of intensity levels.
+- Implemented with `cv::calcHist` and custom drawing in OpenCV.
 
 ### 2. ⚖️ Equalize Histogram
-- Migliora il contrasto tramite `cv::equalizeHist()`.
-- Utile per immagini con aree molto scure o molto chiare.
+- Improve contrast with `cv::equalizeHist()`.
+- Useful for images with very dark or very light areas.
 
 ### 3. 🎯 Histogram Matching
-- Confronta e adatta l’istogramma di un’immagine a quello di un’immagine target.
-- Mappatura basata sulle distribuzioni cumulative.
+- Compare and match the histogram of an image to that of a target image.
+- Mapping based on cumulative distributions.
 
 ### 4. ⬛ Invert Image
-- Inversione per pixel: `255 - pixel`.
-- Implementato manualmente (senza usare `bitwise_not`).
+- Per-pixel inversion: `255 - pixels`.
+- Manually implemented (without using `bitwise_not`).
 
----
-
-## 🔧 Filtri e Edge Detection
+## 🔧 Filters and Edge Detection
 
 ### 5. 🌫 Gaussian Blur
-- Applica smoothing con filtro Gaussiano: `cv::GaussianBlur`.
-- Controllo dinamico del **kernel size** con uno slider OpenCV.
-- Solo valori dispari consentiti (3, 5, 7...).
+- Apply smoothing with a Gaussian filter: `cv::GaussianBlur`.
+- Dynamic control of the **kernel size** with an OpenCV slider.
+- Only odd values ​​allowed (3, 5, 7...).
 
 ### 6. 🟦 Sobel
-- Calcolo del gradiente in X e Y: `cv::Sobel`.
-- Somma pesata delle due direzioni per evidenziare i contorni.
-- L'immagine viene convertita in scala di grigi se necessario.
+- Calculate the gradient in X and Y: `cv::Sobel`.
+- Weighted sum of the two directions to highlight the edges.
+- The image is converted to grayscale if necessary.
 
 ### 7. 🟪 Roberts
-- Operatore di bordo con kernel 2×2 (non disponibile direttamente in OpenCV).
-- Implementato con `cv::filter2D` e kernel personalizzati:
-  - `[[1, 0], [0, -1]]` per diagonale principale
-  - `[[0, 1], [-1, 0]]` per diagonale inversa
+- Edge operator with 2×2 kernel (not directly available in OpenCV).
+- Implemented with `cv::filter2D` and custom kernels:
+- `[[1, 0], [0, -1]]` for main diagonal
+- `[[0, 1], [-1, 0]]` for inverse diagonal
 
 ---
 
-## ✨ Sharpening con Laplaciano
+## ✨ Sharpening with Laplacian
 
-### 8. 🔪 Sharpen Image (con Laplaciano)
+### 8. 🔪 Sharpen Image (with Laplacian)
 
-- Il valore `c` è selezionabile dinamicamente:
-  - `c = -1`: effetto nitido (sottrazione del Laplaciano)
-  - `c = +1`: effetto più morbido (aggiunta del Laplaciano)
-- Usato `cv::Laplacian` + `cv::addWeighted`.
-
----
-
-## 🖱 Interazione Grafica
-
-- I filtri dinamici (Gaussian, Sharpen) mostrano **sliders (trackbars)** per il controllo dei parametri in tempo reale.
-- Ogni slider modifica l’immagine visualizzata all’istante.
-- Finestra creata con `cv::namedWindow` + `cv::imshow` + `cv::createTrackbar`.
+- The `c` value is dynamically selectable:
+- `c = -1`: sharp effect (subtract Laplacian)
+- `c = +1`: smooth effect (add Laplacian)
+- Used `cv::Laplacian` + `cv::addWeighted`.
 
 ---
 
-## 🛠 Requisiti
+## 🖱 Graphical Interaction
+
+- Dynamic filters (Gaussian, Sharpen) show **sliders (trackbars)** for real-time parameter control.
+- Each slider changes the displayed image instantly.
+- Window created with `cv::namedWindow` + `cv::imshow` + `cv::createTrackbar`.
+
+---
+
+## 🛠 Requirements
 
 - OpenCV 4.x
 - CMake
-- Compilatore C++17 o superiore
-
+- C++17 compiler or higher
