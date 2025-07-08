@@ -12,13 +12,19 @@
 #include <iostream>
 
 void GUI::run() {
+
     std::string imagePath;
     std::cout << "Enter path to color image: ";
     std::getline(std::cin, imagePath);
+    cv::Mat img;
 
-    cv::Mat img = cv::imread(imagePath, cv::IMREAD_COLOR);
-    if (img.empty()) {
-        std::cerr << "Could not read the image: " << imagePath << std::endl;
+    try {
+        img = cv::imread(imagePath, cv::IMREAD_COLOR);
+        if (img.empty()) {
+            throw std::runtime_error("Could not read the image: " + imagePath);
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Exception loading image: " << e.what() << std::endl;
         return;
     }
 
@@ -31,7 +37,10 @@ void GUI::run() {
         std::cout << "2) Equalize Histogram\n";
         std::cout << "3) Histogram Matching\n";
         std::cout << "4) Invert Image\n";
-        std::cout << "5) Blur Image\n";
+        std::cout << "5) Gaussian Image\n";
+        std::cout << "6) Sobel Image\n";
+        std::cout << "7) Roberts Image\n";
+        std::cout << "8) Sharpen Image\n";
         std::cout << "0) Exit\n";
         std::cout << "Choice: ";
 
@@ -75,11 +84,74 @@ void GUI::run() {
                 break;
             }
             case 5: {
-                cv::Mat blurred = Filters::blur(gray, 5);
-                cv::imshow("Blurred Image", blurred);
+                const std::string win = "Gaussian Blur";
+                int kSize = 5;
+
+                cv::namedWindow(win, cv::WINDOW_AUTOSIZE);
+                cv::createTrackbar("Kernel size", win, &kSize, 31, [](int pos, void* userdata) {
+                    int k = pos;
+                    if (k % 2 == 0) k += 1; // deve essere dispari
+                    if (k < 1) k = 1;
+                    const cv::Mat& img = *static_cast<cv::Mat*>(userdata);
+                    cv::Mat blurred = Filters::blur(img, k);
+                    cv::imshow("Gaussian Blur", blurred);
+                }, &gray);
+
+                cv::setTrackbarPos("Kernel size", win, 5);
                 cv::waitKey(0);
                 break;
             }
+            case 6: {
+                const std::string win = "Sobel Filter";
+                int dummy = 1;
+
+                cv::namedWindow(win, cv::WINDOW_AUTOSIZE);
+                cv::createTrackbar("Apply", win, &dummy, 1, [](int pos, void* userdata) {
+                    if (pos == 0) return;
+                    const cv::Mat& img = *static_cast<cv::Mat*>(userdata);
+                    cv::Mat sobel = Filters::sobel(img);
+                    cv::imshow("Sobel Filter", sobel);
+                }, &gray);
+
+                cv::setTrackbarPos("Apply", win, 1);
+                cv::waitKey(0);
+                break;
+            }
+
+            case 7: {
+                const std::string win = "Roberts Filter";
+                int dummy = 1;
+
+                cv::namedWindow(win, cv::WINDOW_AUTOSIZE);
+                cv::createTrackbar("Apply", win, &dummy, 1, [](int pos, void* userdata) {
+                    if (pos == 0) return;
+                    const cv::Mat& img = *static_cast<cv::Mat*>(userdata);
+                    cv::Mat roberts = Filters::roberts(img);
+                    cv::imshow("Roberts Filter", roberts);
+                }, &gray);
+
+                cv::setTrackbarPos("Apply", win, 1);
+                cv::waitKey(0);
+                break;
+            }
+
+            case 8: {
+                const std::string win = "Sharpening with laplacian";
+                int mode = 0;
+
+                cv::namedWindow(win, cv::WINDOW_AUTOSIZE);
+                cv::createTrackbar("Mode (0: -1, 1: +1)", win, &mode, 1, [](int pos, void* userdata) {
+                    const cv::Mat& gray = *static_cast<cv::Mat*>(userdata);
+                    int c = (pos == 0) ? -1 : 1;
+                    cv::Mat sharpened = Filters::sharpenLaplacian(gray, c);
+                    cv::imshow("Sharpening (Laplacian Theory)", sharpened);
+                }, &gray);
+
+                cv::setTrackbarPos("Mode (0: -1, 1: +1)", win, 0);
+                cv::waitKey(0);
+                break;
+            }
+
             default:
                 std::cerr << "Invalid choice.\n";
         }
