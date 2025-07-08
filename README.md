@@ -5,9 +5,6 @@ Questo progetto fornisce una semplice interfaccia in C++ e OpenCV per applicare 
 
 ---
 
-
----
-
 ## 🧠 Descrizione delle Funzionalità
 
 ### 1. 📊 Histogram
@@ -52,12 +49,6 @@ Questo progetto fornisce una semplice interfaccia in C++ e OpenCV per applicare 
 
 ### 8. 🔪 Sharpen Image (con Laplaciano)
 
-Basato sulla formula:
-
-\[
-g(x, y) = I(x, y) + c \cdot \nabla^2 I(x, y)
-\]
-
 - Il valore `c` è selezionabile dinamicamente:
   - `c = -1`: effetto nitido (sottrazione del Laplaciano)
   - `c = +1`: effetto più morbido (aggiunta del Laplaciano)
@@ -79,13 +70,3 @@ g(x, y) = I(x, y) + c \cdot \nabla^2 I(x, y)
 - CMake
 - Compilatore C++17 o superiore
 
----
-
-## ⚙️ Build & Esecuzione
-
-### 🧱 Compilazione
-```bash
-mkdir build
-cd build
-cmake ..
-make
