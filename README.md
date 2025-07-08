@@ -3,7 +3,6 @@
 Questo progetto fornisce una semplice interfaccia in C++ e OpenCV per applicare **operazioni spaziali sulle immagini a basso livello**.  
 È pensato per fini didattici e dimostrativi, offrendo una GUI testuale e alcune interazioni visive tramite slider (`cv::createTrackbar`).
 
----
 
 ## 🧠 Descrizione delle Funzionalità
 
